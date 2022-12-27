@@ -73,6 +73,9 @@ module.exports = configure(function (ctx) {
         chain
           .plugin('eslint-webpack-plugin')
           .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
+
+          const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
+          chain.plugin('node-polyfill').use(nodePolyfillWebpackPlugin)
       },
 
       // blergh
@@ -88,7 +91,8 @@ module.exports = configure(function (ctx) {
         cfg.resolve.fallback.buffer = require.resolve('buffer/')
         cfg.resolve.fallback.stream = require.resolve('readable-stream')
         cfg.resolve.fallback.crypto = false
-        cfg.resolve.fallback.path = false
+        cfg.resolve.fallback.path = require.resolve('path-browserify')
+        cfg.resolve.fallback.webtorrent = require.resolve('webtorrent')
         cfg.resolve.fallback.fs = false
         cfg.experiments = cfg.experiments || {}
         cfg.experiments.asyncWebAssembly = true

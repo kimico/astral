@@ -85,6 +85,14 @@
             </a>
           </q-item-label>
         </div>
+        <div v-if="event.content.startsWith('magnet:?xt=')" class="torrent-content">
+          <BaseMagnetLink
+          :content='event.content'
+
+
+        />
+
+        </div>
         <BaseMarkdown
           v-if="event.kind === 1"
           :content='event.interpolated.text'
@@ -92,6 +100,8 @@
           @expand='isLongForm = !isLongForm'
           @resized='calcConnectorValues(10)'
         />
+
+
         <BaseRelayRecommend v-else-if="event.kind === 2" :url="sanitize(event.content)" />
         <pre v-else> {{ cleanEvent }} </pre>
         <div
@@ -230,6 +240,7 @@ import BaseButtonInfo from 'components/BaseButtonInfo.vue'
 import BaseButtonCopy from 'components/BaseButtonCopy.vue'
 import BaseMarkdown from 'components/BaseMarkdown.vue'
 import BaseRelayRecommend from 'components/BaseRelayRecommend.vue'
+import BaseMagnetLink from 'components/BaseMagnetLink.vue'
 import * as DOMPurify from 'dompurify'
 
 export default defineComponent({
@@ -249,6 +260,7 @@ export default defineComponent({
     BaseButtonCopy,
     BaseMarkdown,
     BaseRelayRecommend,
+    BaseMagnetLink,
   },
 
   data() {
@@ -264,6 +276,7 @@ export default defineComponent({
       resizing: false,
       trigger: 1,
       isLongForm: false,
+      isMagnetLink: false
     }
   },
 
